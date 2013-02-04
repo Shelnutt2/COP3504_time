@@ -27,6 +27,9 @@ public class tester {
 		   
 		   // Check if multiply(10,5) returns 50
 		   assertEquals("Result", "2/3/2013, 10:41:12", tester.toString());
+		   assertEquals("Result", "2/3/2012, 10:41:0", tester.subtract(new Time(-365,0,0,-12)).toString());
+		   assertEquals("Result", 0 + " days, " + 0 + ":" +0+ ":"+12, tester.subtract(new DateTime(2013, 2, 3, 10, 41, 0)).toString());
+		   assertEquals("Result", "0 days, 0:0:12", tester.subtract(new DateTime(2013, 2, 3, 10, 41, 0)).toString());
 		   
 	}
 	@Test
