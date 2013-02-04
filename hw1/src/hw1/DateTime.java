@@ -2,6 +2,7 @@ package hw1;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 public class DateTime {
 
@@ -10,7 +11,9 @@ public class DateTime {
     
 	public DateTime(){
 		gregorianCalendar=new GregorianCalendar();
-		
+	}
+	public DateTime(GregorianCalendar calendar){
+		gregorianCalendar=calendar;
 	}
 	
 	public DateTime(int year, int month, int day, int hour, int min, int sec){
@@ -59,15 +62,43 @@ public class DateTime {
 	}
 	
 	public DateTime add(Time time){		
-		
+		GregorianCalendar newcal = (GregorianCalendar) this.gregorianCalendar.clone();
+		newcal.add(Calendar.DAY_OF_YEAR, time.getDays());
+		newcal.add(Calendar.HOUR, time.getHours());
+		newcal.add(Calendar.MINUTE, time.getMinutes());
+		newcal.add(Calendar.SECOND, time.getSeconds());
+		return new DateTime(newcal);
 	}
 	
 	public DateTime subtract(Time time){
-		
+		GregorianCalendar newcal = (GregorianCalendar) this.gregorianCalendar.clone();
+		newcal.add(Calendar.DAY_OF_YEAR, time.getDays());
+		newcal.add(Calendar.HOUR, time.getHours());
+		newcal.add(Calendar.MINUTE, time.getMinutes());
+		newcal.add(Calendar.SECOND, time.getSeconds());
+		return new DateTime(newcal);
 	}
 	
 	public Time subtract(DateTime dateTime){
-		
+		int day = 0, hour = 0, min = 0, sec = 0;
+		long datemili = this.gregorianCalendar.getTimeInMillis() - dateTime.gregorianCalendar.getTimeInMillis();
+		while(datemili >=1000){
+			sec +=1;
+			datemili -=1000;
+		}
+		while(sec >= 60){
+			min +=1;
+			sec -=60;
+		}
+		while(min >=60){
+			hour +=1;
+			min -=60;
+		}
+		while(hour >=24){
+			day +=1;
+			hour -=1;
+		}
+		return new Time(day,hour,min,sec);
 	}
 
 }
