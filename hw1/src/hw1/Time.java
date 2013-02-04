@@ -149,7 +149,7 @@ public class Time {
 		}
 		while(nhour >= 24){ //Convert hours to days.
 			nday++;
-			nhour--;
+			nhour-=24;
 		}
 		return new Time(nday,nhour,nmin,(int)diffseconds);
 	}
@@ -189,7 +189,7 @@ public class Time {
 		}
 		while(nhour >= 24){ //Convert hours to days.
 			nday++;
-			nhour--;
+			nhour -=24;
 		}
 		return new Time(cday*nday,nhour,nmin,(int)diffseconds);
 	}

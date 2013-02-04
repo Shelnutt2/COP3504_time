@@ -122,7 +122,7 @@ public class DateTime {
 	 * @return   new calendar with added time
 	 */
 	public DateTime add(Time time){		
-		GregorianCalendar newcal = (GregorianCalendar) this.gregorianCalendar.clone();
+		GregorianCalendar newcal = (GregorianCalendar) this.gregorianCalendar.clone();  //Clone the current calendar into one we can manipulate
 		newcal.add(Calendar.DAY_OF_YEAR, time.getDays());
 		newcal.add(Calendar.HOUR, time.getHours());
 		newcal.add(Calendar.MINUTE, time.getMinutes());
@@ -137,11 +137,11 @@ public class DateTime {
 	 * @return   new calendar with subtracted time
 	 */
 	public DateTime subtract(Time time){
-		GregorianCalendar newcal = (GregorianCalendar) this.gregorianCalendar.clone();
-		newcal.add(Calendar.DAY_OF_YEAR, time.getDays());
-		newcal.add(Calendar.HOUR, time.getHours());
-		newcal.add(Calendar.MINUTE, time.getMinutes());
-		newcal.add(Calendar.SECOND, time.getSeconds());
+		GregorianCalendar newcal = (GregorianCalendar) this.gregorianCalendar.clone(); //Clone the current calendar into one we can manipulate
+		newcal.add(Calendar.DAY_OF_YEAR, -time.getDays()); //Add negative to subtract
+		newcal.add(Calendar.HOUR, -time.getHours()); //Add negative to subtract
+		newcal.add(Calendar.MINUTE, -time.getMinutes()); //Add negative to subtract
+		newcal.add(Calendar.SECOND, -time.getSeconds()); //Add negative to subtract
 		return new DateTime(newcal);
 	}
 	
@@ -153,22 +153,22 @@ public class DateTime {
 	 */
 	public Time subtract(DateTime dateTime){
 		int day = 0, hour = 0, min = 0, sec = 0;
-		long datemili = this.gregorianCalendar.getTimeInMillis() - dateTime.gregorianCalendar.getTimeInMillis();
-		while(datemili >=1000){
+		long datemili = this.gregorianCalendar.getTimeInMillis() - dateTime.gregorianCalendar.getTimeInMillis(); //Convert Dates to Milliseconds and subtract
+		while(datemili >=1000){ //Convert from milliseconds to seconds
 			sec +=1;
 			datemili -=1000;
 		}
-		while(sec >= 60){
+		while(sec >= 60){ //Convert from seconds to minutes
 			min +=1;
 			sec -=60;
 		}
-		while(min >=60){
+		while(min >=60){ //Convert from minutes to hours
 			hour +=1;
 			min -=60;
 		}
-		while(hour >=24){
+		while(hour >=24){ //Convert from hours to days
 			day +=1;
-			hour -=1;
+			hour -=24;
 		}
 		return new Time(day,hour,min,sec);
 	}
