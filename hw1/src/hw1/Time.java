@@ -51,10 +51,25 @@ public class Time {
 	}
 	
 	public Time add(Time time){
-		int nday =  this.getDays() + time.getDays();
-		int nhour = this.getHours() + time.getHours();
-		int nmin = this.getMinutes() + time.getMinutes();
-		int nsec = this.getSeconds() + time.getSeconds();
+		int atime[] = {time.getDays(),time.getHours(),time.getMinutes(),time.getSeconds()};
+		boolean negative = false;
+		for(int i = 0; i < atime.length;i++){
+			if(atime[i]<0){
+				negative = true;
+				atime[i] = -atime[i];
+			}
+		}
+		if(negative){
+			return subtract(new Time(atime[0],atime[1],atime[2],atime[3]));
+		}
+		long newmili = TimeUnit.MILLISECONDS.convert(time.getDays(), TimeUnit.DAYS) + TimeUnit.MILLISECONDS.convert(time.getHours(), TimeUnit.HOURS) +  TimeUnit.MILLISECONDS.convert(time.getMinutes(), TimeUnit.MINUTES) +  TimeUnit.MILLISECONDS.convert(time.getSeconds(), TimeUnit.SECONDS);
+		long oldmili = TimeUnit.MILLISECONDS.convert(this.getDays(), TimeUnit.DAYS) + TimeUnit.MILLISECONDS.convert(this.getHours(), TimeUnit.HOURS) +  TimeUnit.MILLISECONDS.convert(this.getMinutes(), TimeUnit.MINUTES) +  TimeUnit.MILLISECONDS.convert(this.getSeconds(), TimeUnit.SECONDS);
+        long diffmili = oldmili + newmili;
+    	int nday = 0, nhour = 0, nmin = 0, nsec = 0;
+    	while(diffmili >= 1000){
+    		nsec++;
+    		diffmili -=1000;
+    	}
 		while(nsec >= 60){
 			nmin++;
 			nsec -=60;
@@ -70,10 +85,28 @@ public class Time {
 		return new Time(nday,nhour,nmin,nsec);
 	}
 	public Time subtract(Time time){
-		int nday =  this.getDays() - time.getDays();
-		int nhour = this.getHours() - time.getHours();
-		int nmin = this.getMinutes() - time.getMinutes();
-		int nsec = this.getSeconds() - time.getSeconds();
+		int atime[] = {time.getDays(),time.getHours(),time.getMinutes(),time.getSeconds()};
+		boolean negative = false;
+		for(int i = 0; i < atime.length;i++){
+			if(atime[i]<0){
+				negative = true;
+				atime[i] = -atime[i];
+			}
+		}
+		if(negative){
+			return add(new Time(atime[0],atime[1],atime[2],atime[3]));
+		}
+		long newmili = TimeUnit.MILLISECONDS.convert(time.getDays(), TimeUnit.DAYS) + TimeUnit.MILLISECONDS.convert(time.getHours(), TimeUnit.HOURS) +  TimeUnit.MILLISECONDS.convert(time.getMinutes(), TimeUnit.MINUTES) +  TimeUnit.MILLISECONDS.convert(time.getSeconds(), TimeUnit.SECONDS);
+		long oldmili = TimeUnit.MILLISECONDS.convert(this.getDays(), TimeUnit.DAYS) + TimeUnit.MILLISECONDS.convert(this.getHours(), TimeUnit.HOURS) +  TimeUnit.MILLISECONDS.convert(this.getMinutes(), TimeUnit.MINUTES) +  TimeUnit.MILLISECONDS.convert(this.getSeconds(), TimeUnit.SECONDS);
+        long diffmili = oldmili - newmili;
+        if(diffmili < 0){
+        	diffmili *=-1;
+        }
+    	int nday = 0, nhour = 0, nmin = 0, nsec = 0;
+    	while(diffmili >= 1000){
+    		nsec++;
+    		diffmili -=1000;
+    	}
 		while(nsec >= 60){
 			nmin++;
 			nsec -=60;

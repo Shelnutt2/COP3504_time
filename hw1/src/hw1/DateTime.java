@@ -18,7 +18,6 @@ public class DateTime {
 	
 	public DateTime(int year, int month, int day, int hour, int min, int sec){
 		gregorianCalendar=new GregorianCalendar(year, month, day,  hour,  min, sec); 
-		
 	}
 	
 	public String toString(){
