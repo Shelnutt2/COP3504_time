@@ -119,6 +119,11 @@ public class Time {
 		return this.sec;
 	}
 	
+	/**
+	 * Check if time is negative and if so returns and arraylist with new time and boolean saying true.
+	 * 
+	 * @return  Arraylist with boolean of true if negative and new instance of time class with time that is positive.
+	 */
 	public ArrayList<Object> isNegative(){
 		int atime[] = {this.getDays(),this.getHours(),this.getMinutes(),this.getSeconds()}; 
 		boolean negative = false; //Boolean for negative check
