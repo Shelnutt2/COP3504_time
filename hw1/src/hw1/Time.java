@@ -6,6 +6,7 @@
 
 package hw1;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /** 
@@ -118,13 +119,8 @@ public class Time {
 		return this.sec;
 	}
 	
-	/**
-	 * Add a given time instance to current time instance.
-	 * @param time Takes input of time to be added to current time instance
-	 * @return  New instance of time class with time addition
-	 */
-	public Time add(Time time){
-		int atime[] = {time.getDays(),time.getHours(),time.getMinutes(),time.getSeconds()}; 
+	public ArrayList<Object> isNegative(){
+		int atime[] = {this.getDays(),this.getHours(),this.getMinutes(),this.getSeconds()}; 
 		boolean negative = false; //Boolean for negative check
 		for(int i = 0; i < atime.length;i++){  //Iterate through array to check if we are adding negative time
 			if(atime[i]<0){
@@ -132,8 +128,20 @@ public class Time {
 				atime[i] = -atime[i]; //Convert to positive integers for computation
 			}
 		}
-		if(negative){ //adding a negative is just subtraction
-			return subtract(new Time(atime[0],atime[1],atime[2],atime[3]));
+		ArrayList<Object> robj = new ArrayList<Object>(); 
+		robj.add(negative);
+		robj.add(new Time(atime[0],atime[1],atime[2],atime[3]));
+		return robj;
+	}
+	
+	/**
+	 * Add a given time instance to current time instance.
+	 * @param time Takes input of time to be added to current time instance
+	 * @return  New instance of time class with time addition
+	 */
+	public Time add(Time time){
+		if((boolean) this.isNegative().get(0)){ //adding a negative is just subtraction
+			return subtract((Time) this.isNegative().get(1));
 		}
 		long newseconds = TimeUnit.SECONDS.convert(time.getDays(), TimeUnit.DAYS) + TimeUnit.SECONDS.convert(time.getHours(), TimeUnit.HOURS) +  TimeUnit.SECONDS.convert(time.getMinutes(), TimeUnit.MINUTES) +  TimeUnit.SECONDS.convert(time.getSeconds(), TimeUnit.SECONDS); //Convert to seconds
 		long oldseconds = TimeUnit.SECONDS.convert(this.getDays(), TimeUnit.DAYS) + TimeUnit.SECONDS.convert(this.getHours(), TimeUnit.HOURS) +  TimeUnit.SECONDS.convert(this.getMinutes(), TimeUnit.MINUTES) +  TimeUnit.SECONDS.convert(this.getSeconds(), TimeUnit.SECONDS); //Convert to seconds
@@ -160,16 +168,8 @@ public class Time {
 	 * @return  New instance of time class with time subtracted
 	 */
 	public Time subtract(Time time){
-		int atime[] = {time.getDays(),time.getHours(),time.getMinutes(),time.getSeconds()}; //Create an array of the inputed time
-		boolean negative = false; //Boolean for negative check
-		for(int i = 0; i < atime.length;i++){ //Iterate through array to check if we are subtracting negative time
-			if(atime[i]<0){
-				negative = true;
-				atime[i] = -atime[i]; //Convert to positive integers for computation
-			}
-		}
-		if(negative){ //Subtracting negative time is just addition.
-			return add(new Time(atime[0],atime[1],atime[2],atime[3]));
+		if((boolean) this.isNegative().get(0)){ //adding a negative is just subtraction
+			return subtract((Time) this.isNegative().get(1));
 		}
 		long newseconds = TimeUnit.SECONDS.convert(time.getDays(), TimeUnit.DAYS) + TimeUnit.SECONDS.convert(time.getHours(), TimeUnit.HOURS) +  TimeUnit.SECONDS.convert(time.getMinutes(), TimeUnit.MINUTES) +  TimeUnit.SECONDS.convert(time.getSeconds(), TimeUnit.SECONDS); //Convert to seconds
 		long oldseconds = TimeUnit.SECONDS.convert(this.getDays(), TimeUnit.DAYS) + TimeUnit.SECONDS.convert(this.getHours(), TimeUnit.HOURS) +  TimeUnit.SECONDS.convert(this.getMinutes(), TimeUnit.MINUTES) +  TimeUnit.SECONDS.convert(this.getSeconds(), TimeUnit.SECONDS); //Convert to seconds

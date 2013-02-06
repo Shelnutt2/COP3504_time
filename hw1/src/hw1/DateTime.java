@@ -121,7 +121,10 @@ public class DateTime {
 	 * @param time  Takes Time instance
 	 * @return   new calendar with added time
 	 */
-	public DateTime add(Time time){		
+	public DateTime add(Time time){	
+		if((boolean) time.isNegative().get(0)){ //adding a negative is just subtraction
+			return subtract((Time) time.isNegative().get(1));
+		}
 		GregorianCalendar newcal = (GregorianCalendar) this.gregorianCalendar.clone();  //Clone the current calendar into one we can manipulate
 		newcal.add(Calendar.DAY_OF_YEAR, time.getDays());
 		newcal.add(Calendar.HOUR, time.getHours());
@@ -137,6 +140,9 @@ public class DateTime {
 	 * @return   new calendar with subtracted time
 	 */
 	public DateTime subtract(Time time){
+		if((boolean) time.isNegative().get(0)){ //adding a negative is just subtraction
+			return add((Time) time.isNegative().get(1));
+		}
 		GregorianCalendar newcal = (GregorianCalendar) this.gregorianCalendar.clone(); //Clone the current calendar into one we can manipulate
 		newcal.add(Calendar.DAY_OF_YEAR, -time.getDays()); //Add negative to subtract
 		newcal.add(Calendar.HOUR, -time.getHours()); //Add negative to subtract
